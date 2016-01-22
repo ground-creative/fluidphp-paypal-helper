@@ -1,0 +1,23 @@
+ {
+	"name": "fluidphp/paypal-helper" ,	
+	"type": "library" ,
+	"description": "FluidPHP framework paypal helper" ,
+	"keywords": [ "php framework" ] ,
+	"homepage": "http://phptoolcase.com" ,
+	"license": "GPL V2" ,
+	"authors": 
+	[
+		{
+			"name": "Carlo Pietrobattista" ,
+			"email": "carlo@salapc.com" ,
+			"role": "Developer"
+		}
+	] ,
+	"autoload": 
+	{
+		"psr-4": 
+		{
+			"helpers\\Paypal\\": ""
+		}
+	}
+}
