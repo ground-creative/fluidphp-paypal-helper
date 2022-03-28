@@ -48,14 +48,16 @@
 			curl_setopt( $ch , CURLOPT_HTTPHEADER , array( 'Connection: Close' ) );
 			if ( !$res = curl_exec( $ch ) )
 			{
-				curl_close( $ch );
-				return array
-				(
+				
+				$return =
+				[
 					'success'		=>	false ,
 					'error'		=>	true ,
 					'error_msg'	=>	str_replace( '{curl_error}' , curl_error( $ch ) , static::$_codes[ 104 ] ) ,
 					'code'		=>	104
-				);
+				];
+				curl_close( $ch );
+				return $return;
 			}
 			curl_close( $ch );
 			if ( 0 == strcmp( $res , 'VERIFIED' ) ) // The IPN is verified, process it
@@ -64,58 +66,58 @@
 				$payment_status = filter_var( $myPost[ 'payment_status' ] , FILTER_SANITIZE_STRING );
 				if ( !in_array( strtolower( $payment_status ) , $status ) ) // payment status does not match
 				{
-					return array
-					(
+					return
+					[
 						'success'		=>	false ,
 						'error'		=>	true ,
 						'error_msg'	=>	static::$_codes[ 100 ] ,
 						'code'		=>	100
-					);
+					];
 				}
 				else if ( $receiver_email !== $business_email )
 				{
-					return array
-					(
+					return
+					[
 						'success'		=>	false ,
 						'error'		=>	true ,
 						'error_msg'	=>	static::$_codes[ 101 ] ,
 						'code'		=>	101
-					);
+					];
 				}
-				return array
-				(
+				return
+				[
 						'success'		=>	true ,
 						'code'		=>	200 ,
 						'message'	=>	'successfull paypal IPN transaction' ,
 						'data'		=>	$myPost
-				);
+				];
 			} 
 			else if ( strcmp( $res , 'INVALID' ) == 0 )
 			{
-				return array
-				(
+				return
+				[
 					'success'		=>	false ,
 					'error'		=>	true ,
 					'error_msg'	=>	static::$_codes[ 102 ] ,
 					'code'		=>	102
-				);
+				];
 			}
-			return array
-			(
+			return
+			[
 				'success'		=>	false ,
 				'error'		=>	true ,
 				'error_msg'	=>	static::$_codes[ 103 ] ,
 				'code'		=>	103
-			);
+			];
 		}
 		
-		protected static $_codes = array
-		(
+		protected static $_codes = 
+		[
 			100	=>	'IPN transaction failed: payment_status parameter failed' ,
 			101	=>	'IPN transaction failed: receiver_email does not match business_email' ,
 			102	=>	'IPN transaction failed: IPN is invalid' ,
 			103	=>	'IPN transaction failed: unknown error' ,
 			104	=>	'paypal ipn failed: got {curl_error} when processing paypal IPN' ,
 			200	=>	'successfull paypal IPN transaction'
-		);
+		];
 	}
