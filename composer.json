@@ -4,7 +4,8 @@
 	"description": "FluidPHP framework paypal helper" ,
 	"keywords": [ "php framework" ] ,
 	"homepage": "http://phptoolcase.com" ,
-	"license": "GPL V2" ,
+	"license": "GPL-2.0-or-later" ,
+	"version": "v1.0.1-stable",
 	"authors": 
 	[
 		{
